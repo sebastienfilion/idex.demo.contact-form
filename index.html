@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Contact form</title>
+
+    <style>
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed,
+        figure, figcaption, footer, header, hgroup,
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+        /* HTML5 display-role reset for older browsers */
+        article, aside, details, figcaption, figure,
+        footer, header, hgroup, menu, nav, section {
+            display: block;
+        }
+        body {
+            line-height: 1;
+        }
+        ol, ul {
+            list-style: none;
+        }
+        blockquote, q {
+            quotes: none;
+        }
+        blockquote:before, blockquote:after,
+        q:before, q:after {
+            content: '';
+            content: none;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+    </style>
+
+    <style>
+        #dm-loader-wrapper {
+            align-items: center;
+            display: flex;
+            height: 100%;
+            justify-content: center;
+            width: 100%;
+        }
+
+        #dm-loader circle {
+            animation-iteration-count: infinite;
+            animation-name: dm-loader;
+            animation-timing-function: ease-in-out;
+        }
+
+        #dm-loader circle:nth-child(1) {
+            animation-delay: 0s;
+            animation-duration: 1s;
+        }
+
+        #dm-loader circle:nth-child(2) {
+            animation-delay: 0.25s;
+            animation-duration: 1s;
+        }
+
+        #dm-loader circle:nth-child(3) {
+            animation-delay: 0.5s;
+            animation-duration: 1s;
+        }
+
+        @keyframes dm-loader {
+            0% {
+                cy: 33;
+            }
+
+            50% {
+                cy: 8;
+            }
+
+            100% {
+                cy: 33;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="./global-style.css">
+</head>
+<body>
+    <template id="contact-form-page-template">
+        <h2>Say hello</h2>
+        <form class="dm-form" id="dm-contact-form">
+            <label for="dm-contact-form__fullName">
+                <span class="dm-form__label">Full name</span>
+                <input class="dm-form__input" id="dm-contact-form__fullName" name="fullName" type="text" />
+            </label>
+            <label for="dm-contact-form__email">
+                <span class="dm-form__label">Email</span>
+                <input class="dm-form__input" id="dm-contact-form__email" name="email" required type="email" />
+            </label>
+            <label for="dm-contact-form__message">
+                <span class="dm-form__label">Message</span>
+                <textarea class="dm-form__input" id="dm-contact-form__message" name="message" required rows="4"></textarea>
+            </label>
+
+            <div class="dm-contact-form__actions">
+                <button class="dm-form__button dm-button --submit-button" type="submit">Send</button>
+            </div>
+        </form>
+    </template>
+
+    <template id="contact-form-success-page-template">
+        <div class="dm-contact-form-success">
+            <div class="dm-contact-form-success__art">
+                <svg
+                        height="36"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 22 22"
+                        width="36"
+                >
+                    <title>Check</title>
+                    <path d="M19.35,6.08a1,1,0,1,0-1.42-1.42L7.38,15.22,4.07,11.91a1,1,0,0,0-1.42,1.41l4,4,0,.05a1,1,0,0,0,.71.29h.14a1,1,0,0,0,.57-.28l0-.05Z" fill="#FFFFFF" fill-rule="evenodd"/>
+                </svg>
+            </div>
+            <p class="dm-contact-form-success__text">
+                Your message was successfully sent.
+            </p>
+            <button id="dm-contact-form-success__back-button" class="dm-button">Go back</button>
+        </div>
+    </template>
+
+    <template id="error-page-template">
+        <h3>Something wrong happened...</h3>
+    </template>
+
+    <div id="dm-container">
+        <div id="dm-loader-wrapper">
+            <svg
+                    id="dm-loader"
+                    height="44"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 80 44"
+                    width="80"
+            >
+                <circle cx="11" cy="33" r="8" fill="#B3C0CE"></circle>
+                <circle cx="38" cy="33" r="8" fill="#B3C0CE"></circle>
+                <circle cx="66" cy="33" r="8" fill="#B3C0CE"></circle>
+            </svg>
+        </div>
+    </div>
+
+    <dm-alert></dm-alert>
+
+    <link href="https://fonts.googleapis.com/css?family=Archivo:400,600" rel="stylesheet">
+    <script async type="text/javascript" src="./application.js"></script>
+    <script async type="text/javascript" src="./DemoAlert.js"></script>
+</body>
+</html>

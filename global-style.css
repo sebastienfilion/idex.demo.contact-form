@@ -1,0 +1,137 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    align-items: center;
+    background-color: #FAFBFB;
+    color: #304156;
+    display: flex;
+    font-family: Archivo, Arial, sans-serif;
+    font-weight: 400;
+    justify-content: center;
+}
+
+h2 {
+    font-size: 1.125em;
+    font-weight: 600;
+    margin-bottom: 1em;
+}
+
+#dm-container {
+    box-sizing: border-box;
+    max-width: 500px;
+    min-width: 300px;
+    width: 100%;
+}
+
+.dm-button {
+    align-items: center;
+    background-color: #FFFFFF;
+    border-color: #F0F1F2;
+    border-style: solid;
+    border-radius: 4px;
+    border-width: 1px;
+    cursor: pointer;
+    display: flex;
+    font-size: 0.9375em;
+    height: 36px;
+    justify-content: center;
+    min-width: 124px;
+}
+
+.dm-button.--submit-button {
+    background-color: #0093FF;
+    color: #FFFFFF;
+}
+
+.dm-form {
+    border-color: #F0F1F2;
+    border-style: solid;
+    border-radius: 4px;
+    border-width: 1px;
+    padding: 24px;
+    outline: none;
+    width: 100%;
+}
+
+.dm-form label {
+    display: block;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.dm-form label:last-child {
+    margin-bottom: 0;
+}
+
+.dm-form__label {
+    color: #828D99;
+    display: block;
+    font-size: 0.6875em;
+    font-weight: 600;
+    margin-bottom: 1em;
+    text-transform: uppercase;
+}
+
+.dm-form__input {
+    background-color: transparent;
+    border-color: #E1E5E9;
+    border-style: solid;
+    border-radius: 4px;
+    border-width: 1px;
+    box-sizing: border-box;
+    min-height: 36px;
+    padding: 0 12px;
+    outline: none;
+    width: 100%;
+}
+
+textarea.dm-form__input {
+    padding-bottom: 12px;
+    padding-top: 12px;
+    resize: vertical;
+}
+
+.dm-form__input:focus {
+    border-color: #71C2F8 !important;
+}
+
+.dm-form__input[required]:valid {
+    border-color: #87DB0C;
+}
+
+.dm-form__input.--input-dirty:invalid,
+.dm-form__input.--input-dirty.--input-invalid {
+    border-color: #FF0000;
+    background-color: rgba(255, 0, 0, 0.05);
+}
+
+.dm-contact-form__actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.dm-contact-form-success {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dm-contact-form-success__art {
+    align-items: center;
+    background-color: #73D500;
+    border-radius: 50px;
+    display: flex;
+    height: 100px;
+    justify-content: center;
+    margin-bottom: 24px;
+    width: 100px;
+}
+
+.dm-contact-form-success__text {
+    font-size: 1.125em;
+    margin-bottom: 36px;
+    text-align: center;
+}

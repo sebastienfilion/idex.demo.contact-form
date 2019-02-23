@@ -1,0 +1,14 @@
+.DS_Store
+.data/
+.docs/
+.dump/
+.idea/
+node_modules/
+
+
+*.db
+*.iml
+*.log
+*.rdb
+*.zip
+

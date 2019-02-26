@@ -97,12 +97,17 @@ function initializeContactFormPage ($$containerElement) {
   $$formElement.addEventListener('submit', ($$event) => {
     handleFormOnSubmit($$event)
       .then(response => {
-        const data = response.json();
 
-        if (response.status >= 300) throw new Error(data.error);
+        return response.json()
+          .then(data => {
+            if (response.status >= 300) throw new Error(data.error);
+            else updateApplicationState('ContactFormSuccess')
+          });
       })
-      .then(() => updateApplicationState('ContactFormSuccess'))
-      .catch(($$error) => showAlert(undefined, $$error.message));
+      .catch(($$error) => {
+        console.log("EEE", $$error);
+        showAlert(undefined, $$error.message)
+      });
   });
 
   Array.from($$inputElementList)

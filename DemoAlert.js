@@ -76,12 +76,14 @@ $$templateElement.innerHTML = `
         </button>
     </div>
 </div>
-`
+`;
 
 class DemoAlert extends HTMLElement {
 
   constructor () {
     super();
+
+    this._value = "";
 
     this.attachShadow({ mode: 'open' });
 
@@ -132,9 +134,15 @@ class DemoAlert extends HTMLElement {
     this.show();
   }
 
+  get value () {
+
+    return this._value;
+  }
+
   set value (value) {
     const $$messageElement = this.shadowRoot.querySelector('#dm-alert-message');
 
+    this._value = value;
     $$messageElement.textContent = value;
   }
 

@@ -4,10 +4,12 @@ const SERVER_URL = 'http://127.0.0.1:9090';
 const MAIN_STATE_NAME = 'ContactForm';
 const PAGE_HASH_BY_STATE_NAME = {
   ContactForm: '',
-  ContactFormSuccess: '#contact-form-success'
+  ContactFormSuccess: '#contact-form-success',
+  Test: '#test'
 };
 const STATE_NAME_BY_PAGE_HASH = {
-  '#contact-form-success': 'ContactFormSuccess'
+  '#contact-form-success': 'ContactFormSuccess',
+  '#test': 'Test'
 };
 const REDIRECT_PAGE_HASH_LIST = ['#contact-form-success'];
 
@@ -23,6 +25,8 @@ function handleFormOnSubmit ($$event) {
 
   if (!$$formElement.checkValidity()) return;
 
+  // $$formElement == $$formElement.children == [HTMLElement,...]
+  // data = { fullName: "", email: "", message: "" }
   const data = Array.from($$formElement)
     .reduce((accumulator, $$element) => {
       if ($$element instanceof HTMLButtonElement || $$element.type == 'button') return accumulator;
@@ -48,7 +52,7 @@ function initializeApplication () {
   const { hash } = new URL(window.location.href);
   const stateName = (hash == '') ? MAIN_STATE_NAME :
     (hash && REDIRECT_PAGE_HASH_LIST.includes(hash)) ?
-      'ContactForm' :
+      MAIN_STATE_NAME :
       STATE_NAME_BY_PAGE_HASH[hash];
 
   console.debug(`Initializing from "${stateName}".`, { hash });
@@ -63,17 +67,17 @@ function initializeApplication () {
  *
  * @argument stateName {String}
  */
-function initializeApplicationState (stateName) {
+function initializeApplicationState (stateName, state = {}) {
   const $$containerElement = document.querySelector('#dm-container');
 
   removeAllChildrenOfElement($$containerElement);
 
   switch (stateName) {
     case 'ContactForm':
-      initializeContactFormPage($$containerElement);
+      initializeContactFormPage($$containerElement, state);
       break;
     case 'ContactFormSuccess':
-      initializeContactFormSuccessPage($$containerElement);
+      initializeContactFormSuccessPage($$containerElement, state);
       break;
     default:
       initializeErrorPage($$containerElement);
@@ -97,16 +101,17 @@ function initializeContactFormPage ($$containerElement) {
   $$formElement.addEventListener('submit', ($$event) => {
     handleFormOnSubmit($$event)
       .then(response => {
+        const fullName = $$event.target[0].value;
 
         return response.json()
           .then(data => {
             if (response.status >= 300) throw new Error(data.error);
-            else updateApplicationState('ContactFormSuccess')
+            else updateApplicationState('ContactFormSuccess', { fullName })
           });
       })
       .catch(($$error) => {
-        console.log("EEE", $$error);
-        showAlert(undefined, $$error.message)
+        console.error("Error occurred", $$error);
+        showAlert(undefined, $$error.message);
       });
   });
 
@@ -114,8 +119,8 @@ function initializeContactFormPage ($$containerElement) {
     .forEach($$inputElement =>
       $$inputElement.addEventListener('change', ($$event) => {
         if (!$$inputElement.checkValidity()) $$inputElement.classList.add('--input-invalid');
-        else $$inputElement.classList.remove('--input-invalid')
-        $$inputElement.classList.add('--input-dirty')
+        else $$inputElement.classList.remove('--input-invalid');
+        $$inputElement.classList.add('--input-dirty');
       })
     );
 }
@@ -125,11 +130,18 @@ function initializeContactFormPage ($$containerElement) {
  *
  * @argument $$containerElement {HTMLElement}
  */
-function initializeContactFormSuccessPage ($$containerElement) {
+function initializeContactFormSuccessPage ($$containerElement, state = {}) {
   const $$templateElement = document.querySelector('#contact-form-success-page-template');
   const $$pageContentElement = document.importNode($$templateElement.content, true);
 
   $$containerElement.appendChild($$pageContentElement);
+
+  const { fullName } = state;
+  const [ firstName ] = fullName.split(' ');
+
+  const $$firstNameSpanElement = document.querySelector('#dm-contact-form-success__text__firstName');
+
+  $$firstNameSpanElement.textContent = firstName;
 
   const $$backButtonElement = $$containerElement.querySelector('#dm-contact-form-success__back-button');
 
@@ -143,6 +155,13 @@ function initializeContactFormSuccessPage ($$containerElement) {
  */
 function initializeErrorPage ($$containerElement) {
   const $$templateElement = document.querySelector('#error-page-template');
+  const $$pageContentElement = document.importNode($$templateElement.content, true);
+
+  $$containerElement.appendChild($$pageContentElement);
+}
+
+function initializeTestPage ($$containerElement) {
+  const $$templateElement = document.querySelector('#test-page-template');
   const $$pageContentElement = document.importNode($$templateElement.content, true);
 
   $$containerElement.appendChild($$pageContentElement);
@@ -184,7 +203,7 @@ function updateApplicationState (stateName, state = {}) {
 
   if (pageHash !== '') window.history.pushState(state, null, pageHash);
   else window.history.pushState(state, null, null);
-  initializeApplicationState(stateName);
+  initializeApplicationState(stateName, state);
 }
 
 window.addEventListener('load', initializeApplication);
